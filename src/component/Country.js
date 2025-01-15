@@ -5,7 +5,7 @@ const CountryCard = ({ flag, name }) => {
          className="countryCard"
       >
         <img src={flag} alt={name} style={{ height: "100px", width: "100px" }} />
-        <h3>{name}</h3>
+        <h2>{name}</h2>
       </div>
     );
   };

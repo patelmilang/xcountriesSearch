@@ -11,10 +11,10 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debounceTimeout, setDebounceTimeout] = useState(null);
   useEffect(() => {
-    performAPICall();
+    getCountries();
   }, []);
   
-  const performAPICall = async () => {
+  const getCountries = async () => {
      
     try {
       const result = await axios.get(
