@@ -5,6 +5,7 @@ import Country from "./component/Country";
 import useDebounce from "./useDebounce";
 
 function App() {
+  const [allcountry, setAllcountry] = useState([]);
   const [data, setData] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,9 +18,10 @@ function App() {
      
     try {
       const result = await axios.get(
-        "https://xcountries-backend.azurewebsites.net/all"
+        "https://countries-search-data-prod-812920491762.asia-south1.run.app/countries"
       );
       setData(result.data);
+      setAllcountry(result.data);
     } catch (error) {
       console.error("Error fetching data: " + error);
     } finally {
@@ -27,12 +29,14 @@ function App() {
     }
   };
   const performSearchAPICall = async (search) => {
-     console.log('search',search)
+      
     try {
-      const result = await axios.get(
-        "https://xcountries-backend.azurewebsites.net/all"
-      );
-      setData(result.data);
+      const result =  allcountry.filter((item)=>{
+        console.log(item)
+        return item.common.toLowerCase().includes(search.toLowerCase());
+      })
+      setData(result);
+      
     } catch (error) {
       console.error("Error fetching data: " + error);
     } finally {
@@ -42,13 +46,13 @@ function App() {
 
   const debounceSearch = (event, debounceTimeout) => {
     const value = event.target.value;
-console.log(value);
+ 
     if (debounceTimeout) {
       clearTimeout(debounceTimeout);
     }
 
     const timeOut = setTimeout(async () => {
-      console.log('search');
+       
       await performSearchAPICall(value);
     }, 1000);
     setDebounceTimeout(timeOut);
